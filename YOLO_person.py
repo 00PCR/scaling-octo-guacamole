@@ -31,9 +31,9 @@ start = timer()
 
 
 whT = 320
-confThreshold =0.2
+confThreshold =0.5
 nmsThreshold= 0.2
-
+print("Confidence level threshold is:", confThreshold)
 #### LOAD MODEL
 ## Coco Names
 classesFile = "Yolo wieghts and names/coco.names"
@@ -190,12 +190,15 @@ def find_people(imageList, path, name):
 
         if value ==1:
             tracker = tracker +1
-    
-            newImage  = img
-            # write new image to disk
-            newImage = cv2.cvtColor(newImage, cv2.COLOR_BGR2RGB)
-            basename = os.path.basename(imageList[i])     
-            cv2.imwrite(os.path.join(path + name +" "+ basename), newImage) 
+        if tracker%100 ==0:
+            print("Don't freak out. Still processing. Images with people detected:", tracker)
+# =============================================================================
+#             newImage  = img
+#             # write new image to disk
+#             newImage = cv2.cvtColor(newImage, cv2.COLOR_BGR2RGB)
+#             basename = os.path.basename(imageList[i])     
+#             cv2.imwrite(os.path.join(path + name +" "+ basename), newImage) 
+# =============================================================================
     print("total number of images with people: ", tracker )
     print("People found:", counter)
     
@@ -203,4 +206,4 @@ find_people(imageList, path, args.name)
 print("--- %s seconds ---" % (time.time() - start_time))
 end = timer()
 print("This is the timer version",end - start) # Time in seconds, e.g. 5.38091952400282
-    
+print("Threshold:", confThreshold)
